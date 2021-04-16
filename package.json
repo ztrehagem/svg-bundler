@@ -1,0 +1,20 @@
+{
+  "name": "@ztrehagem/svg-bundler",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ztrehagem/svg-bundler.git"
+  },
+  "author": "Shigeki Suwa <shigeki.suwa@ztrehagem.dev>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/ztrehagem/svg-bundler/issues"
+  },
+  "homepage": "https://github.com/ztrehagem/svg-bundler#readme"
+}
