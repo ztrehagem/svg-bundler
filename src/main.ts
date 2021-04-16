@@ -37,7 +37,7 @@ async function parseSvgEntry(entry: SvgEntry) {
 }
 
 export class SvgBundler {
-  protected entries: SvgEntry[] = []
+  readonly entries: SvgEntry[] = []
 
   add(id: string, svgString: string) {
     return this.entries.push({ id, svgString })
