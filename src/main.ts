@@ -37,20 +37,25 @@ async function parseSvgEntry(entry: SvgEntry) {
 }
 
 export class SvgBundler {
-  readonly entries: SvgEntry[] = []
+  readonly entries = new Map<string, SvgEntry>()
 
   add(id: string, svgString: string) {
-    return this.entries.push({ id, svgString })
+    return this.entries.set(id, { id, svgString })
   }
 
   addFile(id: string, filepath: string) {
-    return this.entries.push({ id, svgFile: filepath })
+    return this.entries.set(id, { id, svgFile: filepath })
+  }
+
+  remove(id: string) {
+    return this.entries.delete(id)
   }
 
   async bundle() {
     const sprite = cheerio('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0" style="display:none;"></svg>');
 
-    const sources = await Promise.all(this.entries.map(parseSvgEntry))
+    const entriesArray = Array.from(this.entries.values())
+    const sources = await Promise.all(entriesArray.map(parseSvgEntry))
 
     for (const source of sources) {
       const symbol = cheerio('<symbol></symbol>');
