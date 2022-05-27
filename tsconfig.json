@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
+    "module": "Node16",
+    "lib": ["ES2022"],
     "strict": true,
-    "target": "ES2015",
-    "lib": ["ESNext"],
-    "moduleResolution": "Node",
-    "allowJs": true
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "src",
+    "declaration": true,
+    "outDir": "dist"
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "dist"
-  ]
+  "include": ["src"]
 }
