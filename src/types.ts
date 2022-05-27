@@ -1,5 +1,3 @@
-import * as cheerio from "cheerio";
-
 export interface SvgStringSource {
   readonly id: string;
   readonly svgString: string;
@@ -14,17 +12,14 @@ export type SvgSource = SvgStringSource | SvgFileSource;
 
 export interface ParsedSvgSource {
   readonly id: string;
-  readonly width?: string;
-  readonly height?: string;
-  readonly viewBox?: string;
-  readonly element: cheerio.Cheerio<cheerio.AnyNode>;
+  readonly element: HTMLElement;
 }
 
 export interface Manifest {
   [id: string]: {
-    width?: string;
-    height?: string;
-    viewBox?: string;
+    width: string | null;
+    height: string | null;
+    viewBox: string | null;
   };
 }
 

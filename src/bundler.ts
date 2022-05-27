@@ -6,7 +6,9 @@ import type {
   SvgSource,
   SvgStringSource,
 } from "./types.js";
-import * as cheerio from "cheerio";
+import { DOMParser } from "@xmldom/xmldom";
+
+const MIME_SVG = "image/svg+xml";
 
 export class SvgBundler {
   readonly #sources = new Map<string, SvgSource>();
@@ -22,18 +24,18 @@ export class SvgBundler {
   async bundle(): Promise<BundleResult> {
     const sources = await parseSources(this.#sources);
 
-    const $ = cheerio.load("");
-    const svg = $(
-      '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0" style="display:none;"></svg>'
+    const parser = new DOMParser();
+    const document = parser.parseFromString(
+      '<svg xmlns="http://www.w3.org/2000/svg"></svg>',
+      MIME_SVG
     );
 
     for (const source of sources) {
-      const symbol = createSymbol(source);
-      svg.append(symbol);
+      addSymbol(document, source);
     }
 
     return {
-      bundled: svg.toString(),
+      bundled: document.toString(),
       manifest: createManifest(sources),
     };
   }
@@ -48,17 +50,14 @@ const parseSources = async (
     rawSources.map(normalizeSource)
   );
 
-  const $ = cheerio.load("");
+  const parser = new DOMParser();
 
   return sources.map(({ id, svgString }) => {
-    const svg = $(svgString);
+    const document = parser.parseFromString(svgString, MIME_SVG);
 
     return {
       id,
-      width: svg.attr("width"),
-      height: svg.attr("height"),
-      viewBox: svg.attr("viewBox"),
-      element: svg.children(),
+      element: document.documentElement,
     };
   });
 };
@@ -69,26 +68,37 @@ const normalizeSource = async (source: SvgSource): Promise<SvgStringSource> => {
   return { id: source.id, svgString };
 };
 
-const createSymbol = (
-  source: ParsedSvgSource
-): cheerio.Cheerio<cheerio.AnyNode> => {
-  const $ = cheerio.load("");
-  const symbol = $("<symbol></symbol>");
+const addSymbol = (document: Document, source: ParsedSvgSource): void => {
+  const symbol = document.createElement("symbol");
 
-  symbol.attr("id", source.id);
-  symbol.attr("width", source.width);
-  symbol.attr("height", source.height);
-  symbol.attr("viewBox", source.viewBox);
+  symbol.setAttribute("id", source.id);
 
-  symbol.append(source.element);
+  const attrs = Array.from(source.element.attributes).filter(
+    ({ name }) => name != "id" && name != "xmlns"
+  );
 
-  return symbol;
+  for (const attr of attrs) {
+    symbol.setAttribute(attr.name, attr.value);
+  }
+
+  for (const child of Array.from(source.element.childNodes)) {
+    symbol.appendChild(child);
+  }
+
+  document.documentElement.appendChild(symbol);
 };
 
 const createManifest = (sources: readonly ParsedSvgSource[]): Manifest => {
   const manifestEntries = sources.map(
-    ({ id, width, height, viewBox }) =>
-      [id, { width, height, viewBox }] as const
+    ({ id, element }) =>
+      [
+        id,
+        {
+          width: element.getAttribute("width"),
+          height: element.getAttribute("height"),
+          viewBox: element.getAttribute("viewBox"),
+        },
+      ] as const
   );
 
   return Object.fromEntries(manifestEntries);
