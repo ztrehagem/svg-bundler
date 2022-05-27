@@ -13,11 +13,11 @@ export interface SvgFileSource {
 export type SvgSource = SvgStringSource | SvgFileSource;
 
 export interface ParsedSvgSource {
-  readonly id: string
-  readonly width?: string
-  readonly height?: string
-  readonly viewBox?: string
-  readonly element: cheerio.Cheerio<cheerio.AnyNode>
+  readonly id: string;
+  readonly width?: string;
+  readonly height?: string;
+  readonly viewBox?: string;
+  readonly element: cheerio.Cheerio<cheerio.AnyNode>;
 }
 
 export interface Manifest {

@@ -24,7 +24,7 @@ export class SvgBundler {
 
     const $ = cheerio.load("");
     const svg = $(
-      '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0" style="display:none;"></svg>',
+      '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0" style="display:none;"></svg>'
     );
 
     for (const source of sources) {
@@ -40,12 +40,12 @@ export class SvgBundler {
 }
 
 const parseSources = async (
-  map: ReadonlyMap<string, SvgSource>,
+  map: ReadonlyMap<string, SvgSource>
 ): Promise<ParsedSvgSource[]> => {
   const rawSources = Array.from(map.values());
 
   const sources: SvgStringSource[] = await Promise.all(
-    rawSources.map(normalizeSource),
+    rawSources.map(normalizeSource)
   );
 
   const $ = cheerio.load("");
@@ -70,7 +70,7 @@ const normalizeSource = async (source: SvgSource): Promise<SvgStringSource> => {
 };
 
 const createSymbol = (
-  source: ParsedSvgSource,
+  source: ParsedSvgSource
 ): cheerio.Cheerio<cheerio.AnyNode> => {
   const $ = cheerio.load("");
   const symbol = $("<symbol></symbol>");
@@ -88,7 +88,7 @@ const createSymbol = (
 const createManifest = (sources: readonly ParsedSvgSource[]): Manifest => {
   const manifestEntries = sources.map(
     ({ id, width, height, viewBox }) =>
-      [id, { width, height, viewBox }] as const,
+      [id, { width, height, viewBox }] as const
   );
 
   return Object.fromEntries(manifestEntries);

@@ -1,2 +1,2 @@
-export * from "./types.js"
-export { SvgBundler } from "./bundler.js"
+export * from "./types.js";
+export { SvgBundler } from "./bundler.js";
