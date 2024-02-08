@@ -27,7 +27,7 @@ export class SvgBundler {
     const parser = new DOMParser();
     const document = parser.parseFromString(
       '<svg xmlns="http://www.w3.org/2000/svg"></svg>',
-      MIME_SVG
+      MIME_SVG,
     );
 
     for (const source of sources) {
@@ -44,12 +44,12 @@ export class SvgBundler {
 }
 
 const parseSources = async (
-  map: ReadonlyMap<string, SvgSource>
+  map: ReadonlyMap<string, SvgSource>,
 ): Promise<ParsedSvgSource[]> => {
   const rawSources = Array.from(map.values());
 
   const sources: SvgStringSource[] = await Promise.all(
-    rawSources.map(normalizeSource)
+    rawSources.map(normalizeSource),
   );
 
   const parser = new DOMParser();
@@ -76,7 +76,7 @@ const addSymbol = (document: Document, source: ParsedSvgSource): void => {
   symbol.setAttribute("id", source.id);
 
   const attrs = Array.from(source.element.attributes).filter(
-    ({ name }) => name != "id" && name != "xmlns"
+    ({ name }) => name != "id" && name != "xmlns",
   );
 
   for (const attr of attrs) {
@@ -100,7 +100,7 @@ const createManifest = (sources: readonly ParsedSvgSource[]): Manifest => {
           height: element.getAttribute("height"),
           viewBox: element.getAttribute("viewBox"),
         },
-      ] as const
+      ] as const,
   );
 
   return Object.fromEntries(manifestEntries);
