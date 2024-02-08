@@ -43,15 +43,14 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "pnpm run clean && tsc",
     "clean": "rm -rf dist",
     "example": "node example/bundle.js",
-    "prepare": "npm run build",
-    "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint --ignore-path=.gitignore .",
-    "lint:prettier": "prettier --ignore-path=.gitignore --check .",
-    "fix": "npm run fix:eslint && npm run lint:prettier",
-    "fix:eslint": "npm run lint:eslint -- --fix",
-    "fix:prettier": "npm run lint:prettier -- --write"
+    "prepare": "pnpm run build",
+    "eslint": "eslint --ignore-path .gitignore .",
+    "eslint.fix": "pnpm run eslint --fix",
+    "prettier": "prettier --ignore-path .gitignore --check . !pnpm-lock.yaml",
+    "prettier.fix": "pnpm run prettier --write",
+    "fix": "pnpm run eslint.fix && pnpm run prettier.fix"
   }
 }

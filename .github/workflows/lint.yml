@@ -3,7 +3,7 @@ name: Lint
 on: push
 
 jobs:
-  lint:
+  eslint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -12,7 +12,18 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm install
-      - run: npm run lint
+      - run: npm run eslint
+
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm install
+      - run: npm run prettier
 
   build:
     runs-on: ubuntu-latest
