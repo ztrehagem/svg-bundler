@@ -48,10 +48,10 @@
     "clean": "rm -rf dist",
     "example": "node example/bundle.js",
     "prepare": "npm run build",
-    "lint": "run-s lint:*",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint --ignore-path=.gitignore .",
     "lint:prettier": "prettier --ignore-path=.gitignore --check .",
-    "fix": "run-s fix:*",
+    "fix": "npm run fix:eslint && npm run lint:prettier",
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix:prettier": "npm run lint:prettier -- --write"
   }
