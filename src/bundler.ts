@@ -6,7 +6,7 @@ import type {
   SvgSource,
   SvgStringSource,
 } from "./types.js";
-import { DOMParser } from "@xmldom/xmldom";
+import { DOMParser, XMLSerializer } from "@xmldom/xmldom";
 
 const MIME_SVG = "image/svg+xml";
 
@@ -34,8 +34,10 @@ export class SvgBundler {
       addSymbol(document, source);
     }
 
+    const serializer = new XMLSerializer();
+
     return {
-      bundled: document.toString(),
+      bundled: serializer.serializeToString(document),
       manifest: createManifest(sources),
     };
   }
