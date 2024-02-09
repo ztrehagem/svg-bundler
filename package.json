@@ -46,7 +46,7 @@
   "scripts": {
     "build": "pnpm run clean && tsc",
     "clean": "rm -rf dist",
-    "example": "node example/bundle.js",
+    "example": "node dist/bin/svg-bundler.js --srcDir=example/src --outDir=example/out",
     "prepare": "pnpm run build",
     "eslint": "eslint --ignore-path .gitignore .",
     "eslint.fix": "pnpm run eslint --fix",
