@@ -13,7 +13,7 @@ const loaded = await Promise.all(
   sources.map(async ({ id, filepath }) => {
     const svgString = (await fs.readFile(filepath)).toString();
     return { id, svgString };
-  })
+  }),
 );
 
 for (const { id, svgString } of loaded) {

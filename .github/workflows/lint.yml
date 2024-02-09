@@ -3,24 +3,44 @@ name: Lint
 on: push
 
 jobs:
-  lint:
+  eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.1
+      - uses: actions/setup-node@v3
         with:
           node-version-file: .node-version
-          cache: npm
-      - run: npm install
-      - run: npm run lint
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run eslint
+
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.1
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run prettier
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.1
+      - uses: actions/setup-node@v3
         with:
           node-version-file: .node-version
-          cache: npm
-      - run: npm install
-      - run: npm run build
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build

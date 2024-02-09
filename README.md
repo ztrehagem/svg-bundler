@@ -27,7 +27,7 @@ const bundler = new SvgBundler();
 
 bundler.add(
   "foo",
-  '<svg width="24px" height="24px" viewBox="0 0 24 24">...</svg>'
+  '<svg width="24px" height="24px" viewBox="0 0 24 24">...</svg>',
 );
 
 const { bundled, manifest } = await bundler.bundle();
